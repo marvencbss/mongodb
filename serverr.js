@@ -6,9 +6,9 @@ app.use(express.json());
 
 const port = 3000;
 
-app.get('/usuarios', async (req, res,next) => {
+app.get('/usuarios', async (req, res, next) => {
     try {
-        const docs = awaitdb.findAll();
+        const docs = await db.findAll();
         res.send(docs);
     } catch(err) {
         next(err);
@@ -25,8 +25,8 @@ app.get('/buscarnome/:nome', async (req, res, next) => {
     }
 });
 
-app.patch('editar/:id', async (req, res, next) => {
-    const { nome, idade,cidade } = req.body;
+app.patch('/editar/:id', async (req, res, next) => {
+    const { nome, idade, cidade } = req.body;
     const query = { nome: nome ,idade: idade, cidade: cidade };
 
     try {
@@ -39,7 +39,7 @@ app.patch('editar/:id', async (req, res, next) => {
 
 app.post('/cadastrar', async (req, res, next) => {
     const { nome, idade, cidade } = req.body;
-    const query= { nome:nome, idade:idade, cidade:cidade };
+    const query = { nome: nome, idade: idade, cidade: cidade };
 
     try {
         const docs = await db.insertOne(query);
@@ -54,5 +54,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
+    console.log(`Server running at http://127.0.0.1:${port}/`);
+});
     console.log(`Server running at http://127.0.0.1/${port}/`);
 });
